@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:body>
+
+    <h:form id="classesAddForm">
+        <h:messages globalOnly="true" showDetail="true" showSummary="false" />
+        <p:panel header="Add New Class">
+
+            <h:panelGrid columns="3" cellpadding="5">
+                <h:outputLabel for="name" value="Name:" />
+                <p:inputText id="name" value="#{classesController.newClass.name}" required="true"
+                             requiredMessage="Name is mandatory.">
+                    <f:validateLength minimum="2" maximum="15" /> </p:inputText>
+                <p:message for="name" />
+
+                <h:outputLabel for="semester" value="Semester:" />
+                <p:selectOneMenu id="semester" value="#{classesController.newClass.semester}" required="true"  requiredMessage="Semester is mandatory." style="width: 90%">
+                    <f:selectItem itemValue="A" itemLabel="Semester A" />
+                    <f:selectItem itemValue="B" itemLabel="Semester B" />
+                </p:selectOneMenu>
+                <p:message for="semester" />
+
+                <h:outputLabel for="teacher" value="Teacher:" />
+                <h:selectOneMenu id="teacher" value="#{classesController.newClass.teacher.id}" required="true" style="width: 90%"
+                                 requiredMessage="Please select a teacher.">
+                    <f:selectItems value="#{classesController.teachers}" var="t"
+                                   itemLabel="#{t.name} #{t.surname}" itemValue="#{t.id}" />
+                </h:selectOneMenu>
+                <p:message for="teacher" />
+
+
+            </h:panelGrid>
+
+            <p:commandButton value="Save"
+                             style="border:none"
+                             action="#{classesController.addNewClass}"
+                             update="@form :classesForm:classesTable"
+                             process="@form"
+                             oncomplete="if (!args.validationFailed) PF('addNewCourseDialog').hide();">
+                <p:resetInput target="@form" />
+            </p:commandButton>
+        </p:panel>
+    </h:form>
+
+</h:body>
+</html>

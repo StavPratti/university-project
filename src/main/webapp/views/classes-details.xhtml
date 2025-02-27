@@ -1,0 +1,92 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/primeicons/4.1.0/primeicons.min.css" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</h:head>
+
+<h:body>
+    <ui:include src="/views/common/menu.xhtml" />
+    <h:form id="classesForm">
+        <h2 style="text-align:center; padding-top: 40px;">Courses Information</h2>
+        <div style="margin: 5px;">
+            <p:commandButton value="Add Course" styleClass="add-btn" icon="pi pi-plus"
+                             oncomplete="PF('addNewCourseDialog').show()" />
+            <h:panelGroup style="display: inline-block; margin-left: 10px;">    <!-- Export button -->
+                <p:commandButton value="Export as Excel" icon="fa fa-file-excel-o" ajax="false">
+                    <p:dataExporter type="xlsx" target="classesTable" fileName="classes" />
+                </p:commandButton>
+            </h:panelGroup>
+        </div>
+        <p:dataTable id="classesTable"
+                     value="#{classesController.classes}"
+                     var="classes"
+                     paginator="true"
+                     rows="5"
+                     rowsPerPageTemplate="5,10,15"
+                     paginatorPosition="bottom"
+                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     currentPageReportTemplate="Showing {startRecord} to {endRecord} of {totalRecords} courses">
+            styleClass="dark-header">
+            <p:column filterBy="#{classes.id}" filterMatchMode="exact" headerText="ID">
+                <h:outputText style="text-align: center; display: block;" value="#{classes.id}" />
+            </p:column>
+            <p:column filterBy="#{classes.name}" filterMatchMode="contains" headerText="Name">
+                <h:outputText style="text-align: center; display: block; word-wrap: break-word; white-space: normal;"
+                              value="#{classes.name}" />
+            </p:column>
+            <p:column filterBy="#{classes.semester}" filterMatchMode="exact" headerText="Semester">
+                <h:outputText style="text-align: center; display: block;" value="#{classes.semester}" />
+            </p:column>
+            <p:column filterBy="#{classes.teacher.name} #{classes.teacher.surname}" filterMatchMode="contains" headerText="Teacher">
+                <h:outputText style="text-align: center; display: block; word-wrap: break-word; white-space: normal;"
+                              value="#{classes.teacher.name} #{classes.teacher.surname}" />
+            </p:column>
+
+            <!-- Action column with three buttons -->
+            <p:column headerText="Action" style="width: 200px; text-align: center;" exportable="false">
+                <div class="action-buttons">
+                    <!-- Update button -->
+                    <p:commandButton style="border:none" value="Edit"
+                                     icon="ui-icon-pencil"
+                                     actionListener="#{classesController.selectClass(classes)}"
+                                     oncomplete="PF('editClassesDialog').show()"
+                                     update=":updateClassesForm"
+                    />
+                    <!-- Delete button -->
+                    <p:commandButton style="background-color: #dd1919 !important; border:none;" value="Delete"
+                                     icon="ui-icon-trash"
+                                     actionListener="#{classesController.deleteClass(classes)}"
+                                     update=":classesForm:classesTable">
+                        <p:confirm header="Confirmation" message="Are you sure you want to delete this course?" icon="pi pi-info-circle"/>
+
+                    </p:commandButton>
+                </div>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+
+    <!-- PrimeFaces Dialog to edit a class -->
+    <p:dialog widgetVar="editClassesDialog" header="Update Classes View" modal="true" closable="true" width="80%" resizable="false">
+        <!-- Include the separate dialog form -->
+        <ui:include src="/views/classesUpdate.xhtml" />
+    </p:dialog>
+
+    <!-- PrimeFaces Dialog to add a new class -->
+    <p:dialog widgetVar="addNewCourseDialog" header="Add Class" modal="true" closable="true" width="80%" resizable="false">
+        <!-- Include the separate dialog form -->
+        <ui:include src="/views/classesAdd.xhtml" />
+    </p:dialog>
+
+    <!-- Confirmation Dialog for Delete Class -->
+    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+        <p:commandButton style="border:none; background-color: transparent; color:#056bcd" value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat" icon="pi pi-times"/>
+        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+    </p:confirmDialog>
+</h:body>
+</html>

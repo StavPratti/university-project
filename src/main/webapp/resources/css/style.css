@@ -1,0 +1,45 @@
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the buttons horizontally */
+    justify-content: center;
+    gap: 10px; /* Add space between the buttons */
+}
+
+/* Responsive button styling */
+.action-buttons p {
+    width: 100%; /* Full width for buttons */
+    text-align: center;
+}
+
+.dark-header th {
+    background-color: #555 !important; /* Dark gray header */
+    color: #ffffff !important; /* White text */
+}
+
+.centered {
+    text-align: center !important;
+    display: block; /* Ensure it behaves like a block element */
+}
+/* Navbar background color */
+.ui-menubar {
+    background-color: deeppink; /* Dark background for the navbar */
+    border: none;
+}
+
+/* Menu items (text and icons) */
+.ui-menuitem-link {
+    color: white !important; /* White text */
+    background-color: #555 !important; /* Dark background */
+}
+
+/* Menu item icon color */
+.ui-menuitem-icon {
+    color: white !important; /* White icons */
+    margin-right: 5px;
+}
+
+/* Hide the down arrow from submenu */
+.ui-menuitem-link .ui-icon.ui-icon-triangle-1-s {
+    display: none !important;
+}

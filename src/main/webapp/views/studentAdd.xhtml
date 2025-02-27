@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:body>
+    <h:form id="addStudentForm">
+        <h:messages globalOnly="true" showDetail="true" showSummary="false" />
+        <p:panel header="Add New Student View" style="width: 100%">
+
+            <h:panelGrid  columns="3" cellpadding="5">
+                <h:outputLabel for="name" value="Name:" />
+                <p:inputText id="name" value="#{studentController.newStudent.name}" required="true"
+                             requiredMessage="Name is mandatory.">
+                    <f:validateLength minimum="2" maximum="15" /> </p:inputText> <p:message for="name" />
+
+                <h:outputLabel for="surname" value="Surname:" />
+                <p:inputText id="surname" value="#{studentController.newStudent.surname}" required="true"
+                             requiredMessage="Surname is mandatory.">
+                    <f:validateLength minimum="2" maximum="15" /> </p:inputText> <p:message for="surname" />
+
+                <h:outputLabel for="email" value="Email:" />
+                <p:inputText id="email" value="#{studentController.newStudent.email}" required="true"
+                             requiredMessage="Your email is mandatory." validatorMessage="Email is not valid">
+                    <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                </p:inputText>
+                <p:message for="email" />
+
+                <h:outputLabel for="phone" value="Mobile Phone:" />
+                <p:inputText id="phone" value="#{studentController.newStudent.mobilePhone}" required="true" requiredMessage="Mobile Phone is mandatory."
+                             validatorMessage="Invalid format. Please use +(country_code 1-3 digits) phone (10_digits).">
+                    <f:validateRegex pattern="^\+\d{1,3}\s?\d{10}$"/> </p:inputText>
+                <p:message for="phone" />
+            </h:panelGrid>
+
+            <p:commandButton value="Save"
+                             style="border:none"
+                             action="#{studentController.addNewStudent}"
+                             update="@form :form:studentTable"
+                             process="@form"
+                             oncomplete="if (!args.validationFailed) PF('addNewStudentDialog').hide();">
+                <p:resetInput target="@form" />
+            </p:commandButton>
+        </p:panel>
+    </h:form>
+
+</h:body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:body>
+
+    <h:form id="addTeacherForm">
+        <h:messages globalOnly="true" showDetail="true" showSummary="false" />
+        <p:panel header="Add New Teacher View">
+
+            <h:panelGrid columns="3" cellpadding="5">
+                <h:outputLabel for="name" value="Name:" />
+                <p:inputText id="name" value="#{teacherController.newTeacher.name}" required="true"
+                             requiredMessage="Name is mandatory.">
+                    <f:validateLength minimum="2" maximum="15" /> </p:inputText>
+                <p:message for="name" />
+
+                <h:outputLabel for="surname" value="Surname:" />
+                <p:inputText id="surname" value="#{teacherController.newTeacher.surname}" required="true"
+                             requiredMessage="Surname is mandatory.">
+                    <f:validateLength minimum="2" maximum="15" /> </p:inputText>
+                <p:message for="surname" />
+
+                <h:outputLabel for="address" value="Address:" />
+                <p:inputText id="address" value="#{teacherController.newTeacher.address}" required="true"
+                             requiredMessage="Address is mandatory.">
+                    <f:validateLength minimum="2" maximum="30" /> </p:inputText>
+                <p:message for="address" />
+
+                <h:outputLabel for="phone" value="Mobile Phone:" />
+                <p:inputText id="phone" value="#{teacherController.newTeacher.phoneNumber}" required="true" requiredMessage="Phone is mandatory."
+                             validatorMessage="Invalid format. Please use +(country_code 1-3 digits) phone (10_digits).">
+                    <f:validateRegex pattern="^\+\d{1,3}\s?\d{10}$"/> </p:inputText>
+                <p:message for="phone" />
+            </h:panelGrid>
+
+            <!-- Save button -->
+            <p:commandButton value="Save"
+                             style="border:none"
+                             action="#{teacherController.addNewTeacher}"
+                             update="@form :teacherForm:teacherTable"
+                             process="@form"
+                             oncomplete="if (!args.validationFailed) PF('addNewTeacherDialog').hide();"/>
+            <!-- Reset the form inputs -->
+        </p:panel>
+    </h:form>
+
+</h:body>
+</html>
